@@ -65,25 +65,29 @@ new function game() {
         var touchStartClientX, touchStartClientY;
         var canvas = this.renderer.canvas;
         canvas.addEventListener("touchstart", function(event) {
-            if (event.touches.length > 1 || event.targetTouches.length > 1) return;
-            touchStartClientX = event.touches[0].clientX;
-            touchStartClientY = event.touches[0].clientY;
+            if (event.touches.length > 1) return;
+            touchStartClientX = event.touches[0].pageX;
+            touchStartClientY = event.touches[0].pageY;
             event.preventDefault();
         });
         canvas.addEventListener("touchmove", function (event) {
             event.preventDefault();
         });
         canvas.addEventListener("touchend", function(event) {
-            if (event.touches.length > 1 || event.targetTouches.length > 1) return;
-            var touchEndClientX = event.changedTouches[0].clientX;
-            var touchEndClientY = event.changedTouches[0].clientY;
+            if (event.touches.length > 1) return;
+            var touchEndClientX = event.changedTouches[0].pageX;
+            var touchEndClientY = event.changedTouches[0].pageY;
             var dx = touchEndClientX - touchStartClientX;
             var absDx = Math.abs(dx);
             var dy = touchEndClientY - touchStartClientY;
             var absDy = Math.abs(dy);
             if (Math.max(absDx, absDy) > 10) {
                 // (right : left) : (down : up)
-                self.ctrlQueue = absDx > absDy ? (dx > 0 ? 'd' : 'a') : (dy > 0 ? 's' : 'w');
+                self.ctrlQueue += absDx > absDy ? (dx > 0 ? 'd' : 'a') : (dy > 0 ? 's' : 'w');
+                if (!self.gameRunning && !self.gameOver) {
+                    self.gameRunning = true;
+                    self.gameLoop(5);
+                }
             }
         });
     }
