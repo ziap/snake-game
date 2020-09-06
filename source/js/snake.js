@@ -81,7 +81,6 @@ function snake(width, height) {
             game.gameOver = true;
             game.gameRunning = false;
             alert("Game over!");
-            game.restart();
             return;
         }
 

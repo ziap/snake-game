@@ -98,6 +98,7 @@ new function game() {
                 if (this.won) {
                     alert("You win!");
                     this.restart();
+                    return;
                 }
                 this.appleEaten = false;
                 this.placeApple();
@@ -111,7 +112,12 @@ new function game() {
             this.snake.updatePos(newDir, this);
         }
         this.renderer.renderSnake(this.snake, this.apple, frame);
-        if (this.gameRunning) setTimeout(function() {self.gameLoop((frame + 1) % 10)}, 50/3);
+        if (!this.gameOver) {
+            if (this.gameRunning) setTimeout(function() {self.gameLoop((frame + 1) % 10)}, 50/3);
+        }
+        else {
+            this.restart();
+        }
     }
 
 
