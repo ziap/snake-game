@@ -27,11 +27,11 @@ new function game() {
 
     this.placeApple = function() {
         do {
-            self.apple = {
-                x: Math.floor(Math.random() * self.gridSize.x),
-                y: Math.floor(Math.random() * self.gridSize.y)
+            this.apple = {
+                x: Math.floor(Math.random() * this.gridSize.x),
+                y: Math.floor(Math.random() * this.gridSize.y)
             }
-        } while(self.snake.occupiedSpace[self.apple.y][self.apple.x]);
+        } while(this.snake.occupiedSpace[this.apple.y][this.apple.x]);
     }
 
     this.listen = function() {
@@ -54,11 +54,36 @@ new function game() {
             var modifiers = event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
             var mapped = map[event.which];
             if (!modifiers && (mapped != undefined)) {
+                event.preventDefault();
                 self.ctrlQueue += mapped;
                 if (!self.gameRunning && !self.gameOver) {
                     self.gameRunning = true;
                     self.gameLoop(5);
                 }
+            }
+        });
+        var touchStartClientX, touchStartClientY;
+        var canvas = this.renderer.canvas;
+        canvas.addEventListener("touchstart", function(event) {
+            if (event.touches.length > 1 || event.targetTouches.length > 1) return;
+            touchStartClientX = event.touches[0].clientX;
+            touchStartClientY = event.touches[0].clientY;
+            event.preventDefault();
+        });
+        canvas.addEventListener("touchmove", function (event) {
+            event.preventDefault();
+        });
+        canvas.addEventListener("touchend", function(event) {
+            if (event.touches.length > 1 || event.targetTouches.length > 1) return;
+            var touchEndClientX = event.changedTouches[0].clientX;
+            var touchEndClientY = event.changedTouches[0].clientY;
+            var dx = touchEndClientX - touchStartClientX;
+            var absDx = Math.abs(dx);
+            var dy = touchEndClientY - touchStartClientY;
+            var absDy = Math.abs(dy);
+            if (Math.max(absDx, absDy) > 10) {
+                // (right : left) : (down : up)
+                self.ctrlQueue = absDx > absDy ? (dx > 0 ? 'd' : 'a') : (dy > 0 ? 's' : 'w');
             }
         });
     }
