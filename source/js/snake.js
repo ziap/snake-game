@@ -2,9 +2,6 @@ function snake(width, height) {
     this.score = 3;
     this.dir = 'd';
 
-    this.width = width;
-    this.height = height;
-
     this.occupiedSpace = new Array(height);
     for (var i = 0; i < height; i++) {
         this.occupiedSpace[i] = new Array(width);

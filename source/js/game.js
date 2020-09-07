@@ -21,7 +21,7 @@ new function game() {
     
     window.addEventListener('resize', function() {
         self.renderer.resizeCanvas(self.gridSize.x, self.gridSize.y);
-        self.renderer.renderSnake(self.snake, self.apple, 0);
+        if (!self.gameRunning) self.renderer.renderSnake(self.snake, self.apple, 4)
     }, false);
 
     this.placeApple = function() {
