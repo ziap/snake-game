@@ -15,7 +15,6 @@ new function game() {
         this.apple = null;
 
         this.ctrlQueue = "";
-        this.listen();
         this.placeApple();
         this.gameLoop(4);
     }
@@ -120,6 +119,6 @@ new function game() {
         }
     }
 
-
     this.restart();
+    this.listen();
 };
