@@ -112,6 +112,6 @@ export default class Draw {
 
         this.ctx.font = '24px sans-serif'
         this.ctx.fillStyle = '#ffffff'
-        this.ctx.fillText('Press any key to restart', this.canvas.width / 2, this.canvas.height / 2 + 20)
+        this.ctx.fillText('Click to restart', this.canvas.width / 2, this.canvas.height / 2 + 20)
     }
 }

@@ -105,7 +105,7 @@ export default class Game {
 
     waitAndRestart(message) {
         this.renderer.showMessage(message)
-        new Promise(resolve => addEventListener('keydown', e => resolve())).then(() => this.restart())
+        new Promise(resolve => addEventListener('click', e => resolve())).then(() => this.restart())
     }
 
     gameLoop() {
