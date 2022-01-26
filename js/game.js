@@ -81,7 +81,7 @@ export default class Game {
             if (event.touches.length > 1) return
             touch_start_client_x = event.touches[0].pageX
             touch_start_client_y = event.touches[0].pageY
-            event.preventDefault()
+            if (!this.game_over) event.preventDefault()
         })
         canvas.addEventListener('touchmove', event => event.preventDefault())
         canvas.addEventListener('touchend', event => {
@@ -105,7 +105,7 @@ export default class Game {
 
     waitAndRestart(message) {
         this.renderer.showMessage(message)
-        new Promise(resolve => addEventListener('click', e => resolve())).then(() => this.restart())
+        new Promise(resolve => this.renderer.canvas.addEventListener('click', e => resolve())).then(() => this.restart())
     }
 
     gameLoop() {
@@ -113,6 +113,7 @@ export default class Game {
         if (this.frame == 0) {
             if (this.apple_eaten) {
                 if (this.won) {
+                    this.game_over = true
                     this.waitAndRestart('You win!')
                     return
                 }
