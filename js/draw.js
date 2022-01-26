@@ -71,13 +71,13 @@ export default class Draw {
         this.drawCircle(apple, 0.64, '#FF0000')
 
         const snake_head = {
-            x: snake.last_head.x + (snake.head.x - snake.last_head.x) * (frame / 9),
-            y: snake.last_head.y + (snake.head.y - snake.last_head.y) * (frame / 9)
+            x: snake.last_head.x + (snake.head.x - snake.last_head.x) * frame,
+            y: snake.last_head.y + (snake.head.y - snake.last_head.y) * frame
         }
 
         const snake_tail = {
-            x: snake.last_tail.x + (snake.tail.x - snake.last_tail.x) * (frame / 9),
-            y: snake.last_tail.y + (snake.tail.y - snake.last_tail.y) * (frame / 9)
+            x: snake.last_tail.x + (snake.tail.x - snake.last_tail.x) * frame,
+            y: snake.last_tail.y + (snake.tail.y - snake.last_tail.y) * frame
         }
 
         this.drawCircle(snake_tail, 0.8, '#1dbfea')
