@@ -2,6 +2,7 @@ export default class Draw {
     constructor() {
         this.default_tile_size = 48
         this.header_height = 64
+        this.margin = 0
         this.tile_size = this.default_tile_size
         this.canvas = document.getElementById('canvas')
         this.ctx = canvas.getContext('2d')
@@ -9,23 +10,19 @@ export default class Draw {
 
     getSize() {
         return {
-            x: Math.floor(innerWidth / (this.tile_size * 2)) * 2,
-            y: Math.floor((innerHeight - this.header_height) / (this.tile_size * 2)) * 2
+            x: Math.floor((innerWidth - this.margin) / (this.tile_size * 2)) * 2,
+            y: Math.floor((innerHeight - this.header_height - this.margin) / (this.tile_size * 2)) * 2
         }
-    }
-
-    setCanvasSize(width, height) {
-        this.canvas.width = width * this.tile_size
-        this.canvas.height = height * this.tile_size
     }
 
     resizeCanvas(width, height) {
-        if (innerWidth / (innerHeight - this.header_height) > width / height) {
-            this.tile_size = (innerHeight - this.header_height) / height
+        if ((innerWidth - this.margin) / (innerHeight - this.header_height - this.margin) > width / height) {
+            this.tile_size = (innerHeight - this.header_height - this.margin) / height
         } else {
-            this.tile_size = innerWidth / width
+            this.tile_size = (innerWidth - this.margin) / width
         }
-        this.setCanvasSize(width, height)
+        this.canvas.width = width * this.tile_size
+        this.canvas.height = height * this.tile_size
     }
 
     drawCircle(vector, radius, color) {

@@ -4,6 +4,7 @@
 }
 
 canvas {
+    pointer-events: none;
     position: fixed;
     top: calc(50% + 64px);
     left: 50%;

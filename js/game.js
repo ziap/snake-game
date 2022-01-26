@@ -27,7 +27,7 @@ export default class Game {
         this.renderer.tile_size = this.renderer.default_tile_size
         this.grid_size = this.renderer.getSize()
         this.counter.innerHTML = `Score: 0`
-        this.renderer.setCanvasSize(this.grid_size.x, this.grid_size.y)
+        this.renderer.resizeCanvas(this.grid_size.x, this.grid_size.y)
 
         this.snake = new Snake(this.grid_size.x, this.grid_size.y)
 
