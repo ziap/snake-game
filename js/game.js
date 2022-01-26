@@ -2,10 +2,10 @@ import Snake from './snake.js'
 import Draw from './draw.js'
 
 export default class Game {
-    constructor(multiplier = 1) {
+    constructor(speed = 0.1) {
         this.renderer = new Draw()
         this.counter = document.getElementById('counter')
-        this.speed_multiplier = multiplier
+        this.speed = speed
         window.addEventListener(
             'resize',
             () => {
@@ -20,7 +20,7 @@ export default class Game {
     }
 
     restart() {
-        this.frame = 4
+        this.frame = 0.4
         this.won = false
         this.game_running = false
         this.game_over = false
@@ -109,8 +109,9 @@ export default class Game {
     }
 
     gameLoop() {
-        this.frame = (this.frame + 1) % 10
-        if (this.frame == 0) {
+        if (this.ctrl_queue || !this.snake.obstacleAhead()) this.frame += this.speed
+        else this.frame += this.speed / 5
+        if (this.frame >= 1) {
             if (this.apple_eaten) {
                 if (this.won) {
                     this.game_over = true
@@ -129,13 +130,11 @@ export default class Game {
 
             const new_dir = this.ctrl_queue[0] || this.snake.dir
             this.counter.innerHTML = `Score: ${this.snake.updatePos(new_dir, this)}`
+            this.frame = 0
         }
         this.renderer.renderSnake(this.snake, this.apple, this.frame)
         if (!this.game_over) {
-            const delay =
-                (this.ctrl_queue.length == 0 && this.snake.obstacleAhead(this.snake.dir) ? 250 : 50) /
-                (3 * this.speed_multiplier)
-            if (this.game_running) setTimeout(() => this.gameLoop(), delay)
+            if (this.game_running) requestAnimationFrame(() => this.gameLoop())
         } else this.waitAndRestart('Game over!')
     }
 }

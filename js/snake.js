@@ -99,7 +99,6 @@ export default class Snake {
             this.occupied_space[this.head.y][this.head.x]
         ) {
             game.game_over = true
-            game.game_running = false
             return this.score - 3
         }
 
@@ -120,9 +119,9 @@ export default class Snake {
         return this.score - 3
     }
 
-    obstacleAhead(dir) {
-        const new_x = this.head.x + move_map[dir].x
-        const new_y = this.head.y + move_map[dir].y
+    obstacleAhead() {
+        const new_x = this.head.x + move_map[this.dir].x
+        const new_y = this.head.y + move_map[this.dir].y
         return (
             new_x >= this.width || new_x < 0 || new_y >= this.height || new_y < 0 || this.occupied_space[new_y][new_x]
         )
