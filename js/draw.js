@@ -9,8 +9,8 @@ export default class Draw {
 
     getSize() {
         return {
-            x: Math.floor(innerWidth / this.tile_size),
-            y: Math.floor((innerHeight - this.header_height) / this.tile_size)
+            x: Math.floor(innerWidth / (this.tile_size * 2)) * 2,
+            y: Math.floor((innerHeight - this.header_height) / (this.tile_size * 2)) * 2
         }
     }
 
