@@ -114,7 +114,7 @@ export default class Game {
     gameLoop() {
         if (this.speed == 1 || this.ctrl_queue || !this.snake.obstacleAhead()) this.frame += this.speed
         else this.frame += this.speed / 5
-        while (this.frame >= 1) {
+        while (this.frame >= 1 && !this.game_over) {
             if (this.apple_eaten) {
                 if (this.won) {
                     this.game_over = true
@@ -132,6 +132,7 @@ export default class Game {
                 this.ctrl_queue = this.ctrl_queue.substring(1)
 
             const new_dir = this.ctrl_queue[0] || this.snake.dir
+            this.ctrl_queue = this.ctrl_queue.substring(1)
             this.counter.innerHTML = `Score: ${this.snake.updatePos(new_dir, this)}`
             this.frame -= 1
             if (this.frame < 0) this.frame = 0
