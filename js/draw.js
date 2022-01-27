@@ -1,6 +1,6 @@
 export default class Draw {
     constructor() {
-        this.default_tile_size = 48
+        this.default_tile_size = 48 
         this.header_height = 64
         this.margin = 0
         this.tile_size = this.default_tile_size
@@ -66,6 +66,8 @@ export default class Draw {
     }
 
     renderSnake(snake, apple, frame) {
+        frame = Math.min(frame, 1)
+        frame = Math.max(frame, 0)
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
         this.drawCircle(apple, 0.64, '#FF0000')

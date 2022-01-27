@@ -104,6 +104,7 @@ export default class Game {
     }
 
     waitAndRestart(message) {
+        this.renderer.renderSnake(this.snake, this.apple, this.frame)
         this.renderer.showMessage(message)
         new Promise(resolve => this.renderer.canvas.addEventListener('click', e => resolve())).then(() =>
             this.restart()
@@ -111,9 +112,9 @@ export default class Game {
     }
 
     gameLoop() {
-        if (this.ctrl_queue || !this.snake.obstacleAhead()) this.frame += this.speed
+        if (this.speed == 1 || this.ctrl_queue || !this.snake.obstacleAhead()) this.frame += this.speed
         else this.frame += this.speed / 5
-        if (this.frame >= 1) {
+        while (this.frame >= 1) {
             if (this.apple_eaten) {
                 if (this.won) {
                     this.game_over = true
@@ -132,11 +133,15 @@ export default class Game {
 
             const new_dir = this.ctrl_queue[0] || this.snake.dir
             this.counter.innerHTML = `Score: ${this.snake.updatePos(new_dir, this)}`
-            this.frame = 0
+            this.frame -= 1
+            if (this.frame < 0) this.frame = 0
         }
         this.renderer.renderSnake(this.snake, this.apple, this.frame)
         if (!this.game_over) {
-            if (this.game_running) requestAnimationFrame(() => this.gameLoop())
+            if (this.game_running) {
+                if (this.speed < 1) requestAnimationFrame(() => this.gameLoop())
+                else setTimeout(() => this.gameLoop(), 0)
+            }
         } else this.waitAndRestart('Game over!')
     }
 }
